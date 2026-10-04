@@ -1,0 +1,1057 @@
+﻿:root {
+  --accent-color: #0077b6;
+  --accent-light: #00b4d8;
+  --accent-dark: #023e8a;
+  /* Text/icon variant of the accent. Kept separate from --accent-color so the
+     brand colour can stay dark enough for white text on filled buttons while
+     text usages still meet WCAG AA. */
+  --accent-text: #0077b6;
+  /* Accent used as FOREGROUND on the page background. In dark mode the brand
+     blue is far too dark to read, so ThemeContext lightens it until it clears
+     WCAG AA against the dark surfaces. */
+  --accent-ink: #0077b6;
+  --accent-hover: var(--accent-dark);
+  --accent-on: #ffffff;
+  --accent-rgb: 0, 119, 182;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-muted: #6a737d;
+  --border-color: #dee2e6;
+  --card-bg: #ffffff;
+  --hero-glow: #e8f4fb;
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --footer-bg: #f8f9fa;
+  --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+  --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
+  --shadow-lg: 0 1rem 3rem rgba(0,0,0,.175);
+  --shadow-glow: 0 .5rem 1.5rem rgba(0, 119, 182, .28);
+  --transition-speed: 0.3s;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme='dark'] {
+  --accent-color: #0077b6;
+  /* Lightened accent keeps text/icons readable on the dark navy surfaces */
+  --accent-light: #7dd3fc;
+  --accent-dark: #0284c7;
+  /* Lightened accent keeps text/icons readable on the dark navy surfaces */
+  --accent-text: #5cc8f5;
+  --accent-ink: #5cc8f5;
+  --accent-hover: var(--accent-light);
+  --accent-on: #ffffff;
+  --accent-rgb: 92, 200, 245;
+  --bg-primary: #0a1628;
+  --bg-secondary: #0f1f38;
+  --bg-tertiary: #1b3054;
+  --text-primary: #f1f5f9;
+  --text-secondary: #c3cfe2;
+  --text-muted: #93a3bd;
+  --border-color: #24395e;
+  --card-bg: #112240;
+  --hero-glow: #14304f;
+  --nav-bg: rgba(10, 22, 40, 0.92);
+  --footer-bg: #0f1f38;
+  --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.35);
+  --shadow-md: 0 .5rem 1rem rgba(0,0,0,.45);
+  --shadow-lg: 0 1rem 3rem rgba(0,0,0,.55);
+  --shadow-glow: 0 .5rem 1.75rem rgba(56, 189, 248, .22);
+}
+
+/* Re-point Bootstrap's own variables so its utilities follow the theme */
+:root,
+[data-theme='dark'] {
+  --bs-body-bg: var(--bg-primary);
+  --bs-body-color: var(--text-primary);
+  --bs-body-color-rgb: 33, 37, 41;
+  --bs-emphasis-color: var(--text-primary);
+  --bs-emphasis-color-rgb: 33, 37, 41;
+  --bs-secondary-color: var(--text-muted);
+  --bs-secondary-color-rgb: 108, 117, 125;
+  --bs-secondary-rgb: 108, 117, 125;
+  --bs-secondary-bg: var(--bg-secondary);
+  --bs-tertiary-color: var(--text-secondary);
+  --bs-tertiary-color-rgb: 73, 80, 87;
+  --bs-tertiary-bg: var(--bg-tertiary);
+  --bs-border-color: var(--border-color);
+  --bs-border-color-translucent: var(--border-color);
+  --bs-heading-color: var(--text-primary);
+  --bs-link-color: var(--accent-text);
+  --bs-link-hover-color: var(--accent-hover);
+  --bs-link-color-rgb: 0, 119, 182;
+  --bs-link-hover-color-rgb: 2, 62, 138;
+  --bs-primary-rgb: 0, 119, 182;
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-primary);
+  --bs-table-striped-bg: rgba(148, 163, 184, .06);
+  --bs-table-hover-bg: rgba(148, 163, 184, .1);
+  --bs-accordion-bg: var(--card-bg);
+  --bs-accordion-color: var(--text-primary);
+  --bs-accordion-border-color: var(--border-color);
+  --bs-accordion-btn-color: var(--text-primary);
+  --bs-accordion-btn-bg: transparent;
+  --bs-accordion-active-bg: transparent;
+  --bs-accordion-active-color: var(--accent-text);
+  --bs-modal-bg: var(--card-bg);
+  --bs-modal-border-color: var(--border-color);
+  --bs-offcanvas-bg: var(--card-bg);
+}
+
+[data-theme='dark'] {
+  --bs-body-color-rgb: 241, 245, 249;
+  --bs-emphasis-color-rgb: 241, 245, 249;
+  --bs-secondary-color-rgb: 147, 163, 189;
+  --bs-secondary-rgb: 147, 163, 189;
+  --bs-tertiary-color-rgb: 195, 207, 226;
+  --bs-link-color-rgb: 92, 200, 245;
+  --bs-link-hover-color-rgb: 125, 211, 252;
+  --bs-primary-rgb: 92, 200, 245;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  /* Noto Sans Devanagari covers the Hindi/Marathi tagline; without it the
+     browser falls back to whatever the OS happens to have. */
+  font-family: 'Inter', 'Noto Sans Devanagari', 'Nirmala UI', 'Mangal', system-ui, sans-serif;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  overflow-x: hidden;
+}
+/* Belt-and-braces: entrance animations and decorative glows must never be able
+   to give the page a horizontal scrollbar. */
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ---------- Project-specific utilities (were referenced but undefined) ---------- */
+.bg-card {
+  background-color: var(--card-bg) !important;
+}
+.max-w-700 {
+  max-width: 700px;
+}
+.min-h-300 {
+  min-height: 300px;
+}
+.product-viewer-container {
+  background: linear-gradient(145deg, var(--bg-secondary), var(--card-bg));
+  border: 1px solid var(--border-color);
+}
+
+/* ---------- Text / surface utilities, theme aware ---------- */
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+.text-body {
+  color: var(--text-primary) !important;
+}
+.bg-light {
+  background-color: var(--bg-secondary) !important;
+}
+.border-light, .border-white {
+  border-color: var(--border-color) !important;
+}
+.border-dark {
+  border-color: var(--border-color) !important;
+}
+.form-control::placeholder, .form-select::placeholder {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+.table {
+  --bs-table-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+/* Dark mode: hard-coded light/dark utilities must flip */
+[data-theme='dark'] .text-dark {
+  color: var(--text-primary) !important;
+}
+[data-theme='dark'] .text-white {
+  color: #fff !important;
+}
+[data-theme='dark'] .bg-white {
+  background-color: var(--card-bg) !important;
+}
+[data-theme='dark'] .bg-light {
+  background-color: var(--bg-secondary) !important;
+}
+[data-theme='dark'] .bg-body {
+  background-color: var(--bg-primary) !important;
+}
+[data-theme='dark'] .bg-secondary {
+  background-color: var(--bg-secondary) !important;
+}
+[data-theme='dark'] .border-light,
+[data-theme='dark'] .border-white,
+[data-theme='dark'] .border-secondary {
+  border-color: var(--border-color) !important;
+}
+[data-theme='dark'] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+[data-theme='dark'] .accordion-button::after,
+[data-theme='dark'] .form-select {
+  background-image: var(--bs-form-select-bg-img);
+}
+[data-theme='dark'] .form-select {
+  --bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23c3cfe2' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+[data-theme='dark'] .modal-content,
+[data-theme='dark'] .accordion-item,
+[data-theme='dark'] .dropdown-menu {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .accordion-button {
+  color: var(--text-primary);
+}
+[data-theme='dark'] .accordion-button:not(.collapsed) {
+  color: var(--accent-text);
+  background-color: transparent;
+  box-shadow: none;
+}
+[data-theme='dark'] .hero-section {
+  background: radial-gradient(circle at 30% 20%, var(--hero-glow) 0%, var(--bg-primary) 65%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
+}
+
+/* Bootstrap's .opacity-0 uses !important, which beats CSS animations and would keep
+   reveal elements hidden forever. Use this non-important equivalent instead. */
+.reveal-hidden {
+  opacity: 0;
+}
+.reveal-in {
+  opacity: 1;
+}
+
+/* Typography utilities */
+.text-accent {
+  color: var(--accent-text) !important;
+}
+.bg-accent {
+  background-color: var(--accent-color) !important;
+}
+/* .bg-accent is !important, so Bootstrap's .bg-opacity-* can no longer soften it.
+   Re-implement the tint steps against the live accent colour instead. */
+.bg-accent.bg-opacity-10 {
+  background-color: rgba(var(--accent-rgb), 0.1) !important;
+}
+.bg-accent.bg-opacity-25 {
+  background-color: rgba(var(--accent-rgb), 0.25) !important;
+}
+.bg-accent.bg-opacity-50 {
+  background-color: rgba(var(--accent-rgb), 0.5) !important;
+}
+.bg-accent.bg-opacity-75 {
+  background-color: rgba(var(--accent-rgb), 0.75) !important;
+}
+.border-accent {
+  border-color: var(--accent-color) !important;
+}
+/* Readable ink for content placed on a filled accent background */
+.text-on-accent {
+  color: var(--accent-on) !important;
+}
+.border-accent.border-opacity-25 {
+  border-color: rgba(var(--accent-rgb), 0.25) !important;
+}
+.border-accent.border-opacity-50 {
+  border-color: rgba(var(--accent-rgb), 0.5) !important;
+}
+
+/* Links */
+a {
+  color: var(--accent-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--accent-on);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--accent-dark);
+  border-color: var(--accent-dark);
+  color: var(--accent-on);
+}
+.btn-outline-primary {
+  color: var(--accent-text);
+  border-color: var(--accent-text);
+}
+.btn-outline-primary:hover {
+  background-color: var(--accent-color);
+  color: var(--accent-on);
+}
+/* .btn-light keeps a near-white background from Bootstrap, which breaks dark mode */
+[data-theme='dark'] .btn-light {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .btn-light:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent-text);
+  color: var(--accent-text);
+}
+
+/* Gradient Text */
+.text-gradient {
+  background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass Effect */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+[data-theme='dark'] .glass-panel {
+  background: rgba(17, 34, 64, 0.6);
+  border: 1px solid rgba(125, 211, 252, 0.18);
+}
+
+/* =====================================================================
+   ANIMATIONS
+   ===================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-48px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(48px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.86); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes flipIn {
+  from { opacity: 0; transform: perspective(900px) rotateX(-28deg); }
+  to { opacity: 1; transform: perspective(900px) rotateX(0); }
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+@keyframes pulseRing {
+  0% { transform: scale(0.85); opacity: 0.85; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+@keyframes floatSlow {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  33% { transform: translate3d(14px, -22px, 0) rotate(5deg); }
+  66% { transform: translate3d(-12px, -10px, 0) rotate(-4deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(4); opacity: 0; }
+}
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+@keyframes shine {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(220%) skewX(-20deg); }
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes bubbleRise {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  12% { opacity: 0.75; }
+  100% { transform: translateY(-320px) scale(1.25); opacity: 0; }
+}
+@keyframes bobbing {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes dropWobble {
+  0%, 100% { border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; }
+  50% { border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%; }
+}
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.7); }
+  70% { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Utility classes */
+.animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+.animate-fade-up { animation: fadeUp 0.7s var(--ease-out-expo) forwards; }
+.animate-fade-down { animation: fadeDown 0.7s var(--ease-out-expo) forwards; }
+.animate-slide-left { animation: slideInLeft 0.7s var(--ease-out-expo) forwards; }
+.animate-slide-right { animation: slideInRight 0.7s var(--ease-out-expo) forwards; }
+.animate-zoom-in { animation: zoomIn 0.8s var(--ease-spring) forwards; }
+.animate-flip-in { animation: flipIn 0.8s var(--ease-out-expo) forwards; }
+.animate-pop-in { animation: popIn 0.5s var(--ease-spring) forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-float-slow { animation: floatSlow 9s ease-in-out infinite; }
+.animate-bob { animation: bobbing 4s ease-in-out infinite; }
+.animate-spin-slow { animation: spinSlow 14s linear infinite; }
+.animate-wobble { animation: dropWobble 3s ease-in-out infinite; }
+
+.animate-gradient {
+  background: linear-gradient(90deg, var(--accent-color), var(--accent-light), var(--accent-color));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* Section heading with a sweeping accent underline */
+.heading-underline {
+  position: relative;
+  display: inline-block;
+}
+.heading-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 3px;
+  width: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.heading-underline:hover::after,
+.heading-underline.is-in::after {
+  transform: scaleX(1);
+}
+
+/* Interactive lift / glow */
+.hover-lift {
+  transition: transform 0.45s var(--ease-out-expo), box-shadow 0.45s var(--ease-out-expo), border-color 0.45s ease;
+  will-change: transform;
+}
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-glow);
+  border-color: var(--accent-color);
+}
+.hover-glow {
+  transition: box-shadow 0.45s ease, transform 0.45s var(--ease-out-expo);
+}
+.hover-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+.hover-zoom {
+  overflow: hidden;
+}
+.hover-zoom img {
+  transition: transform 0.7s var(--ease-out-expo);
+}
+.hover-zoom:hover img {
+  transform: scale(1.12);
+}
+
+/* Shimmering placeholder / skeleton */
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 37%, var(--bg-secondary) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* Buttons: light sweep on hover */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  pointer-events: none;
+}
+.btn-shine:hover::after {
+  animation: shine 0.75s ease-out;
+}
+
+/* Icon badge pop */
+.icon-badge {
+  transition: transform 0.45s var(--ease-spring), background-color 0.35s ease;
+}
+.hover-lift:hover .icon-badge,
+.icon-badge:hover {
+  transform: scale(1.12) rotate(-6deg);
+}
+
+/* Animated water bubbles for hero backgrounds */
+.bubble-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bubble {
+  position: absolute;
+  bottom: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), var(--accent-light) 55%, var(--accent-color));
+  opacity: 0;
+  animation: bubbleRise linear infinite;
+}
+
+
+/* ==========================================================================
+   HERO — animated tech background
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* faint engineering grid, drifts slowly for a "live" feel */
+.hero-grid {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, var(--accent-rgb) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--accent-rgb) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+  animation: gridDrift 26s linear infinite;
+}
+[data-theme='dark'] .hero-grid { opacity: 0.28; }
+
+/* slow-moving colour wash behind the copy */
+.hero-aurora {
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 22% 30%, rgba(var(--accent-rgb), 0.28), transparent 45%),
+    radial-gradient(circle at 78% 68%, rgba(56, 189, 248, 0.22), transparent 48%),
+    radial-gradient(circle at 60% 15%, rgba(14, 165, 233, 0.16), transparent 40%);
+  filter: blur(30px);
+  animation: auroraShift 18s ease-in-out infinite alternate;
+}
+[data-theme='dark'] .hero-aurora { opacity: 0.55; }
+
+@keyframes gridDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-56px, -56px, 0); }
+}
+@keyframes auroraShift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(3%, -2%, 0) scale(1.08); }
+  100% { transform: translate3d(-3%, 3%, 0) scale(1.04); }
+}
+
+/* service area / warranty strip under the purifier */
+.hero-stat-chip {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.hero-stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  animation: livePulse 2s ease-out infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.65); }
+  70%  { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* ==========================================================================
+   3D WATER PURIFIER
+   ========================================================================== */
+.purifier-stage {
+  position: relative;
+  display: inline-block;
+  width: 340px;
+  max-width: 100%;
+  perspective: 1200px;
+}
+
+.purifier-glow {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.42), transparent 68%);
+  filter: blur(26px);
+  animation: glowBreath 5.5s ease-in-out infinite;
+}
+@keyframes glowBreath {
+  0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 0.95; transform: translate(-50%, -50%) scale(1.14); }
+}
+
+.purifier-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  width: 230px;
+  height: 26px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.34), transparent 70%);
+  filter: blur(9px);
+  animation: shadowBreathe 5.5s ease-in-out infinite;
+}
+@keyframes shadowBreathe {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.85; }
+  50%      { transform: translateX(-50%) scale(0.82); opacity: 0.55; }
+}
+
+/* orbiting rings behind the unit */
+.purifier-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.purifier-orbit-a {
+  width: 330px;
+  height: 330px;
+  margin: -165px 0 0 -165px;
+  border-style: dashed;
+  animation: spinSlow 26s linear infinite;
+}
+.purifier-orbit-b {
+  width: 400px;
+  height: 400px;
+  margin: -200px 0 0 -200px;
+  opacity: 0.4;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  animation: spinSlow 40s linear infinite reverse;
+}
+
+.purifier-body {
+  position: relative;
+  z-index: 2;
+  transform-style: preserve-3d;
+}
+
+.purifier-float {
+  animation: purifierFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 26px 32px rgba(0, 0, 0, 0.28));
+}
+@keyframes purifierFloat {
+  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+  50%      { transform: translateY(-14px) rotate(0.6deg); }
+}
+
+.purifier-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* specular sweep travels down the shell */
+.purifier-gloss {
+  animation: glossSweep 5s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes glossSweep {
+  0%   { transform: translateX(-60%); opacity: 0; }
+  35%  { opacity: 0.85; }
+  70%  { transform: translateX(60%); opacity: 0; }
+  100% { transform: translateX(60%); opacity: 0; }
+}
+
+/* water rising inside the middle cartridge */
+.purifier-water {
+  animation: waterRise 3.4s ease-in-out infinite;
+}
+@keyframes waterRise {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* drop falling from the spout */
+.purifier-drip {
+  transform-origin: 160px 400px;
+  animation: dripFall 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes dripFall {
+  0%   { transform: translateY(-16px) scale(0.4); opacity: 0; }
+  25%  { opacity: 1; }
+  70%  { transform: translateY(14px) scale(1); opacity: 1; }
+  85%  { transform: translateY(20px) scale(0.7); opacity: 0; }
+  100% { transform: translateY(-16px) scale(0.4); opacity: 0; }
+}
+
+/* status LEDs blink */
+.purifier-led-on {
+  animation: ledBlink 2.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.9));
+}
+@keyframes ledBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* rising bubbles for depth */
+.purifier-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.purifier-bubble {
+  position: absolute;
+  bottom: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 32%, rgba(255, 255, 255, 0.9), rgba(56, 189, 248, 0.55));
+  opacity: 0;
+  animation: bubbleRise linear infinite;
+}
+
+/* floating spec chips around the purifier */
+.purifier-chip {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow-md);
+  font-size: 0.74rem;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.purifier-chip svg {
+  font-size: 1.05rem;
+  color: var(--accent-text);
+  flex-shrink: 0;
+}
+.purifier-chip small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.purifier-chip strong {
+  color: var(--text-primary);
+  font-size: 0.8rem;
+}
+.purifier-chip-tds {
+  top: 16%;
+  right: -46px;
+  animation: chipFloat 5.5s ease-in-out infinite;
+}
+.purifier-chip-power {
+  top: 46%;
+  left: -52px;
+  animation: chipFloat 6.5s ease-in-out infinite 0.8s;
+}
+.purifier-chip-ro {
+  bottom: 16%;
+  right: -34px;
+  animation: chipFloat 5.9s ease-in-out infinite 1.6s;
+}
+@keyframes chipFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-11px); }
+}
+
+@media (max-width: 991.98px) {
+  /* keep the chips inside the column on small screens */
+  .purifier-chip-tds  { right: -6px; }
+  .purifier-chip-power { left: -6px; }
+  .purifier-chip-ro    { right: 0; }
+}
+@media (max-width: 575.98px) {
+  .purifier-stage { width: 280px; }
+  .purifier-orbit-a { width: 270px; height: 270px; margin: -135px 0 0 -135px; }
+  .purifier-orbit-b { width: 320px; height: 320px; margin: -160px 0 0 -160px; }
+  .purifier-chip { padding: 0.4rem 0.6rem; font-size: 0.68rem; }
+  .purifier-chip-power { display: none; }
+}
+
+/* ==========================================================================
+   TOASTS
+   ========================================================================== */
+.toast-stack {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: min(360px, calc(100vw - 2rem));
+  pointer-events: none;
+}
+
+.toast-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.85rem 2.2rem 0.95rem 0.9rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 0.85rem;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.toast-icon {
+  display: inline-flex;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  flex-shrink: 0;
+  color: var(--accent-text);
+}
+.toast-success { border-left-color: #16a34a; }
+.toast-success .toast-icon { color: #16a34a; }
+.toast-error { border-left-color: #dc2626; }
+.toast-error .toast-icon { color: #dc2626; }
+.toast-info { border-left-color: var(--accent-color); }
+.toast-info .toast-icon { color: var(--accent-text); }
+
+.toast-message {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.toast-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  padding: 0.2rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.toast-close:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+/* countdown bar along the bottom edge */
+.toast-timer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  transform-origin: left center;
+  background: var(--accent-color);
+  opacity: 0.75;
+}
+
+@media (max-width: 575.98px) {
+  .toast-stack {
+    top: auto;
+    bottom: 5.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    width: auto;
+  }
+}
+
+/* ==========================================================================
+   BUTTON MOTION
+   ========================================================================== */
+.btn {
+  transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease,
+              background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(0.98); transition-duration: 0.08s; }
+.btn:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+
+.btn-primary:hover,
+.btn-outline-primary:hover {
+  box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.34);
+}
+
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left 0.6s ease;
+}
+.btn-shine:hover::after { left: 130%; }
+
+.hover-glow { position: relative; }
+.hover-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb), 0.45), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.hover-glow:hover::before { opacity: 1; }
+
+/* ==========================================================================
+   MOTION-SAFE GLOBAL
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid,
+  .hero-aurora,
+  .purifier-glow,
+  .purifier-shadow,
+  .purifier-orbit-a,
+  .purifier-orbit-b,
+  .purifier-float,
+  .purifier-gloss,
+  .purifier-water,
+  .purifier-drip,
+  .purifier-chip,
+  .hero-stat-dot,
+  .purifier-bubble {
+    animation: none !important;
+  }
+  .btn:hover { transform: none; }
+}
+
+/* ==========================================================================
+   PRODUCT ENQUIRY FORM
+   ========================================================================== */
+.product-enquiry-form {
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2.5rem;
+}
+
+.enquiry-success {
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid #16a34a;
+  border-radius: 1rem;
+  margin-bottom: 2.5rem;
+}
+.enquiry-success-icon {
+  color: #16a34a;
+  margin-bottom: 0.75rem;
+  animation: popIn 0.5s var(--ease-out-expo) both;
+}
+
+/* Admin link in the footer — deliberately understated, it is not customer-facing */
+.footer-admin-link {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.75;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+.footer-admin-link:hover {
+  opacity: 1;
+  color: var(--accent-text) !important;
+}
