@@ -4,8 +4,6 @@ Business website and admin panel for **Raj Enterprises**, a domestic RO water pu
 sales, installation, repair and AMC business.
 
 - **Tagline:** Shuddha Paani, Bharosa Pakka — Complete RO Solutions.
-- **Phone / WhatsApp:** 8237739994
-- **Email:** aquarajenterprises@gmail.com
 - **Service Area:** Navi Mumbai
 
 ## Tech Stack
