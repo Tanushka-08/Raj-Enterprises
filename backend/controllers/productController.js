@@ -1,5 +1,9 @@
 const Product = require('../models/Product');
 
+// User input is escaped before it reaches $regex: an unescaped string lets a
+// visitor inject regex syntax (and can trigger catastrophic backtracking).
+const escapeRegex = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 exports.getAllProducts = async (req, res) => {
   try {
     const { search, category, minPrice, maxPrice, sort, page = 1, limit = 10 } = req.query;
@@ -7,9 +11,10 @@ exports.getAllProducts = async (req, res) => {
     let query = { isActive: true };
     
     if (search) {
+      const safe = escapeRegex(String(search).slice(0, 60));
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { brand: { $regex: search, $options: 'i' } }
+        { name: { $regex: safe, $options: 'i' } },
+        { brand: { $regex: safe, $options: 'i' } }
       ];
     }
     
@@ -28,19 +33,22 @@ exports.getAllProducts = async (req, res) => {
     else if (sort === 'price-desc') sortOptions.price = -1;
     else sortOptions.createdAt = -1;
 
-    const skip = (Number(page) - 1) * Number(limit);
+    // Clamp pagination so a hostile ?limit=999999 cannot dump the whole table
+    const perPage = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 60);
+    const currentPage = Math.max(parseInt(page, 10) || 1, 1);
+    const skip = (currentPage - 1) * perPage;
 
     const products = await Product.find(query)
       .sort(sortOptions)
       .skip(skip)
-      .limit(Number(limit));
+      .limit(perPage);
 
     const total = await Product.countDocuments(query);
 
     res.json({
       products,
-      totalPages: Math.ceil(total / Number(limit)),
-      currentPage: Number(page),
+      totalPages: Math.max(1, Math.ceil(total / perPage)),
+      currentPage,
       totalCount: total
     });
   } catch (error) {
@@ -54,6 +62,10 @@ exports.getProductById = async (req, res) => {
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (error) {
+    // A malformed id is a bad request, not a server fault
+    if (error.name === 'CastError') {
+      return res.status(400).json({ message: 'Invalid product id' });
+    }
     res.status(500).json({ message: error.message });
   }
 };

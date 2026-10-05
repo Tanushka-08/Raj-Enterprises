@@ -4,21 +4,52 @@ const Admin = require('./models/Admin');
 const Product = require('./models/Product');
 const AMCPlan = require('./models/AMCPlan');
 
+/**
+ * DANGER: this seeder DELETES every admin, product and AMC plan before it
+ * inserts the demo catalogue. That is fine for a fresh lab machine and
+ * catastrophic on a live database, so it now refuses to run unless the operator
+ * explicitly confirms, and refuses outright in production.
+ */
+const CONFIRM_TOKEN = 'WIPE_AND_RESEED';
+const confirmed = process.argv.includes('--force') || process.env.SEED_CONFIRM === CONFIRM_TOKEN;
+
+const assertSafeToSeed = () => {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Refusing to seed: NODE_ENV is production. This command would delete the live catalogue.');
+  }
+  if (!confirmed) {
+    throw new Error(
+      'Refusing to seed: this command DELETES all admins, products and AMC plans first.\n' +
+      `Re-run with confirmation if that is really what you want:\n` +
+      `  npm run seed -- --force          (or set SEED_CONFIRM=${CONFIRM_TOKEN})`
+    );
+  }
+};
+
 const seedDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/raj-enterprises');
-    console.log('MongoDB connected for seeding');
+    assertSafeToSeed();
 
-    // Clear existing data
+    // 127.0.0.1, not localhost: on Windows localhost resolves to ::1 first and
+    // mongod is often bound to IPv4 only, which fails with ECONNREFUSED.
+    const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/raj-enterprises';
+    await mongoose.connect(uri);
+    console.log(`MongoDB connected for seeding (${mongoose.connection.name})`);
+
+    // Clear existing data (guarded by assertSafeToSeed above)
     await Admin.deleteMany();
     await Product.deleteMany();
     await AMCPlan.deleteMany();
     console.log('Existing data cleared');
 
     // Create Admin (credentials configurable via .env; defaults are for local development only)
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword && process.env.NODE_ENV === 'production') {
+      throw new Error('ADMIN_PASSWORD must be set before seeding.');
+    }
     const admin = new Admin({
       username: process.env.ADMIN_USERNAME || 'admin',
-      password: process.env.ADMIN_PASSWORD || 'admin123',
+      password: adminPassword || 'admin123',
       email: process.env.ADMIN_EMAIL || 'aquarajenterprises@gmail.com'
     });
     await admin.save();
@@ -161,4 +192,7 @@ const seedDatabase = async () => {
   }
 };
 
-seedDatabase();
+seedDatabase().catch((error) => {
+  console.error('Error seeding database:', error.message);
+  process.exit(1);
+});

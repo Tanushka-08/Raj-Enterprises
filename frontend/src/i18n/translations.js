@@ -29,13 +29,20 @@ export function isSupportedLanguage(code) {
   return LANGUAGES.some((l) => l.code === code);
 }
 
-// Written in real Devanagari vocabulary rather than transliterated English:
-// no "RO" and no "solutions" in Latin-letter dress.
-const TAGLINES = {
-  en: 'Shuddha Paani, Bharosa Pakka — Complete RO Solutions.',
-  hi: 'शुद्ध जल, पक्का भरोसा — घर के लिए पूरा जल शुद्धिकरण।',
-  mr: 'शुद्ध पाणी, पक्का भरवसा — घरासाठी संपूर्ण जल शुद्धीकरण.'
-};
+// Owner-locked brand line. Exact wording, three languages, in order:
+//   1. Marathi  — शुद्ध पाणी
+//   2. Hindi    — भरोसा पक्का
+//   3. English  — Complete RO solutions for modern Navi Mumbai homes.
+// The line is intentionally the SAME in every site language: it is the brand
+// lockup, not translated body copy. Nothing else in the brand copy may be
+// reworded or romanised.
+const TAGLINE_LINES = [
+  { text: 'शुद्ध पाणी', lang: 'mr' },
+  { text: 'भरोसा पक्का', lang: 'hi' },
+  { text: 'Complete RO solutions for modern Navi Mumbai homes.', lang: 'en' }
+];
+
+const TAGLINE = TAGLINE_LINES.map((line) => line.text).join(' ');
 
 const HERO_EN = {
   badge: "Navi Mumbai's Trusted RO Service",
@@ -48,8 +55,13 @@ const HERO_EN = {
   imageAlt: 'Home RO water purifier'
 };
 
-export function getHeroCopy(code) {
-  return { ...HERO_EN, tagline: TAGLINES[code] || TAGLINES[DEFAULT_LANGUAGE] };
+export function getHeroCopy() {
+  return {
+    ...HERO_EN,
+    tagline: TAGLINE,
+    taglineLines: TAGLINE_LINES
+  };
 }
 
-export const getTagline = (code) => TAGLINES[code] || TAGLINES[DEFAULT_LANGUAGE];
+export const getTagline = () => TAGLINE;
+export const getTaglineLines = () => TAGLINE_LINES;

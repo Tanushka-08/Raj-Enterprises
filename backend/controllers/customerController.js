@@ -1,13 +1,17 @@
 const Customer = require('../models/Customer');
 
+// Escape user input before it reaches $regex (see productController for why)
+const escapeRegex = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 exports.getAllCustomers = async (req, res) => {
   try {
     const { search } = req.query;
     let query = {};
     if (search) {
+      const safe = escapeRegex(String(search).slice(0, 60));
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { mobile: { $regex: search, $options: 'i' } }
+        { name: { $regex: safe, $options: 'i' } },
+        { mobile: { $regex: safe, $options: 'i' } }
       ];
     }
     const customers = await Customer.find(query).sort({ createdAt: -1 });

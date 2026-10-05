@@ -25,7 +25,7 @@ const About = () => {
                   Raj Enterprises is a premier domestic RO water purifier service provider based in Navi Mumbai. We specialize in the sales, installation, repair, servicing, and AMC (Annual Maintenance Contract) of top-quality water purifiers.
                 </p>
                 <p className="text-secondary mb-4">
-                  With years of experience in the industry, we understand the importance of clean drinking water for your family's health. That's why we operate with the motto <strong>"Shuddha Paani, Bharosa Pakka"</strong>, ensuring that every service we deliver meets the highest standards of quality and reliability.
+                  With years of experience in the industry, we understand the importance of clean drinking water for your family's health. That's why we operate with the motto <strong lang="mr">शुद्ध पाणी</strong> and <strong lang="hi">भरोसा पक्का</strong>, ensuring that every service we deliver meets the highest standards of quality and reliability.
                 </p>
                 <div className="bg-primary bg-opacity-10 p-4 rounded-4 border border-primary border-opacity-25">
                   <h5 className="fw-bold text-primary mb-2">Our Mission</h5>

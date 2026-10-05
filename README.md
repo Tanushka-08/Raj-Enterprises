@@ -4,6 +4,7 @@ Business website and admin panel for **Raj Enterprises**, a domestic RO water pu
 sales, installation, repair and AMC business.
 
 - **Tagline:** Shuddha Paani, Bharosa Pakka — Complete RO Solutions.
+- **Email:** aquarajenterprises@gmail.com
 - **Service Area:** Navi Mumbai
 
 ## Tech Stack
@@ -30,7 +31,7 @@ Raj Enterprises/
 ├── frontend/
 │   ├── public/images/products/ # Product images
 │   └── src/
-│       ├── components/         # Reusable UI (WaterPurifier3D, ProductEnquiryForm, ToastProvider usage…)
+│       ├── components/         # Reusable UI (KitchenHero3D, ProductViewer, TicketTracker, ToastProvider usage…)
 │       ├── context/            # ThemeContext, LanguageContext, ToastContext
 │       ├── i18n/               # translations.js (taglines + locale detection)
 │       ├── pages/              # Route pages
@@ -76,9 +77,15 @@ In development Vite proxies `/api` to `http://localhost:5000` (see `frontend/vit
 ```bash
 cd backend
 npm install
-npm run seed      # populate products, AMC plans, admin user (needs MongoDB)
-npm run dev       # http://localhost:5000  (nodemon)
+# The seeder DELETES all admins, products and AMC plans before inserting the demo
+# catalogue, so it refuses to run without explicit confirmation:
+npm run seed -- --force   # populate products, AMC plans, admin user (needs MongoDB)
+npm run dev               # http://localhost:5000  (nodemon)
 ```
+
+> `npm run seed` also refuses to run when `NODE_ENV=production`. If you already
+> have real data in the database, do not run it — manage products and AMC plans
+> from the admin panel instead.
 
 ### 2. Frontend
 
@@ -133,7 +140,8 @@ Base URL: `/api`
 | GET | `/admin/dashboard` | JWT | Dashboard counters |
 
 Admin: open `/admin/login` and use the credentials from `backend/.env`
-(defaults `admin` / `admin123` when seeded with no overrides — change in production).
+(`ADMIN_USERNAME` / `ADMIN_PASSWORD`). Set a strong password there before seeding
+or deploying — the placeholder shipped in `.env.example` is not a password.
 
 ## Node.js Fundamentals Demo (Experiment 7)
 
@@ -162,7 +170,7 @@ New-Item -ItemType Directory -Force -Path "D:\mongodb-dev\data" | Out-Null
     --logpath "D:\mongodb-dev\mongod.log"
 ```
 
-Then in another shell: `cd backend; npm run seed`
+Then in another shell: `cd backend; npm run seed -- --force`
 
 Confirm it is up with `GET /api/health` -> `"db": "connected"`.
 

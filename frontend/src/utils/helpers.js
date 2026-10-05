@@ -137,6 +137,7 @@ export const normalizeServiceType = (value) => {
     'General Servicing': 'RO Servicing',
     FilterReplacement: 'Filter Replacement',
     'AMC Request': 'AMC',
+    'AMC Plans': 'AMC',
     'Commercial RO': 'Water Treatment'
   };
   if (SERVICE_TYPES.includes(value)) return value;

@@ -17,7 +17,9 @@ const Footer = () => {
         <div className="row g-4">
           <div className="col-lg-4 col-md-6">
             <h4 className="fw-bold text-primary mb-3">Raj Enterprises</h4>
-            <p className="footer-text mb-4">Shuddha Paani, Bharosa Pakka — Complete RO Solutions.</p>
+            <p className="footer-text footer-tagline mb-3" lang="mr">शुद्ध पाणी</p>
+            <p className="footer-text footer-tagline mb-3" lang="hi">भरोसा पक्का</p>
+            <p className="footer-text mb-4">Complete RO solutions for modern Navi Mumbai homes.</p>
             <p className="footer-text small">Premium domestic RO water purification services in Navi Mumbai. We offer sales, installation, repair, and AMC services.</p>
           </div>
 

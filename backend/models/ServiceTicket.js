@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { TICKET_STATUSES } = require('../utils/ticketStatus');
 
 const serviceTicketSchema = new mongoose.Schema({
   ticketId: { type: String, required: true, unique: true },
@@ -20,13 +21,22 @@ const serviceTicketSchema = new mongoose.Schema({
   },
   preferredDate: Date,
   message: String,
-  status: { 
-    type: String, 
-    enum: ['Request Logged', 'Technician Assigned', 'In Progress', 'Completed', 'Cancelled'], 
-    default: 'Request Logged' 
+  status: {
+    type: String,
+    enum: TICKET_STATUSES,
+    default: 'Request Logged'
   },
   technicianName: String,
-  adminNotes: String
+  adminNotes: String,
+  // Real, append-only audit trail of every status change. The public tracker
+  // animates from this array, so the progress shown is never invented.
+  statusHistory: [{
+    status: { type: String, enum: TICKET_STATUSES },
+    note: String,
+    technicianName: String,
+    changedBy: String,
+    at: { type: Date, default: Date.now }
+  }]
 }, {
   timestamps: true
 });
