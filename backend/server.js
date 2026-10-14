@@ -34,6 +34,7 @@ app.disable('x-powered-by');
 // Security and utility middlewares
 const CSP_SOURCES = [
   "'self'",
+  "'unsafe-inline'",
   'https://cdn.jsdelivr.net',
   'https://fonts.googleapis.com',
   'https://fonts.gstatic.com',
@@ -52,10 +53,15 @@ app.use(
         styleSrc: CSP_SOURCES,
         fontSrc: CSP_SOURCES,
         imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
-        connectSrc: ["'self'", ...(process.env.CLIENT_URL || '')
-          .split(',')
-          .map((o) => o.trim())
-          .filter(Boolean)],
+        connectSrc: [
+          "'self'",
+          'https://*.onrender.com',
+          'https://*.vercel.app',
+          ...(process.env.CLIENT_URL || '')
+            .split(',')
+            .map((o) => o.trim())
+            .filter(Boolean)
+        ],
         objectSrc: ["'none'"],
         frameAncestors: ["'self'"],
         upgradeInsecureRequests: null
@@ -74,8 +80,17 @@ const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow same-origin / non-browser requests (no Origin header) and whitelisted origins
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    // Allow same-origin / non-browser requests and production hosting domains
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      origin.includes('onrender.com') ||
+      origin.includes('vercel.app') ||
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1')
+    ) {
+      return callback(null, true);
+    }
     return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
   credentials: true
